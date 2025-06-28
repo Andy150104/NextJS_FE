@@ -65,6 +65,35 @@ export interface UserEntity {
   address?: string | null;
   avatarUrl?: string | null;
 }
+export interface JobDetail {
+  id: number;
+  title: string;
+  companyName: string;
+  industry: string;
+  type: string;
+  salary: string;
+  address: string;
+  experienceRequirement: string;
+  degreeRequirement: string;
+  jobDescription: string;
+  keyResponsibility: string;
+  professionalSkill: string;
+  createdAt: string;
+}
+
+export interface JobDetailResponse {
+  success?: boolean;
+  messageId?: string;
+  message?: string;
+  detailErrorList?: DetailError[] | null;
+  response?: JobDetail | null;
+}
+
+export interface DetailError {
+  field?: string;
+  messageId?: string;
+  errorMessage?: string;
+}
 
 export interface AbstractApiResponseOfUserEntity {
   success?: boolean;
@@ -127,7 +156,7 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = "https://localhost:7165";
+  public baseUrl: string = "http://160.250.246.33:5199";
   private securityData: SecurityDataType | null = null;
   private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
   private abortControllers = new Map<CancelToken, AbortController>();
@@ -300,18 +329,18 @@ export class HttpClient<SecurityDataType = unknown> {
       const data = !responseFormat
         ? r
         : await response[responseFormat]()
-            .then((data) => {
-              if (r.ok) {
-                r.data = data;
-              } else {
-                r.error = data;
-              }
-              return r;
-            })
-            .catch((e) => {
-              r.error = e;
-              return r;
-            });
+          .then((data) => {
+            if (r.ok) {
+              r.data = data;
+            } else {
+              r.error = data;
+            }
+            return r;
+          })
+          .catch((e) => {
+            r.error = e;
+            return r;
+          });
 
       if (cancelToken) {
         this.abortControllers.delete(cancelToken);
