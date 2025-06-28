@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://localhost:7165"
+      "url": "http://160.250.246.33:5199"
     }
   ],
   "paths": {
@@ -134,6 +134,379 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT Token": []
+          }
+        ]
+      }
+    },
+    "/api/v1/quiz/by-industry/{industryCode}": {
+      "get": {
+        "tags": ["Quiz"],
+        "operationId": "Quiz_GetQuizzesByIndustry",
+        "parameters": [
+          {
+            "name": "industryCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuizListResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT Token": []
+          }
+        ]
+      }
+    },
+    "/api/v1/quiz/{id}": {
+      "get": {
+        "tags": ["Quiz"],
+        "operationId": "Quiz_GetQuizDetail",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuizDetailResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT Token": []
+          }
+        ]
+      }
+    },
+    "/api/v1/quiz/industries": {
+      "get": {
+        "tags": ["Quiz"],
+        "operationId": "Quiz_GetAvailableIndustries",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT Token": []
+          }
+        ]
+      }
+    },
+    "/api/v1/Job": {
+      "get": {
+        "tags": ["Job"],
+        "operationId": "Job_GetJobs",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobListResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT Token": []
+          }
+        ]
+      }
+    },
+    "/api/v1/Job/{id}": {
+      "get": {
+        "tags": ["Job"],
+        "operationId": "Job_GetJob",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobDetailResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT Token": []
+          }
+        ]
+      }
+    },
+    "/api/v1/Job/InsertJob": {
+      "post": {
+        "tags": ["Job"],
+        "operationId": "Job_InsertJob",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobCreateRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobDetailResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT Token": []
+          }
+        ]
+      }
+    },
+    "/api/v1/Job/ApplyJob": {
+      "post": {
+        "tags": ["Job"],
+        "operationId": "Job_ApplyJob",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobApplicationCreateRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT Token": []
+          }
+        ]
+      }
+    },
+    "/api/AIFCareer/test-both-formats": {
+      "post": {
+        "tags": ["AIFCareer"],
+        "operationId": "AIFCareer_TestBothFormats",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT Token": []
+          }
+        ]
+      }
+    },
+    "/api/AIFCareer/test-parsing": {
+      "post": {
+        "tags": ["AIFCareer"],
+        "operationId": "AIFCareer_TestParsing",
+        "requestBody": {
+          "x-name": "testResponse",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComprehensiveCareerGuidanceResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT Token": []
+          }
+        ]
+      }
+    },
+    "/api/AIFCareer/test-resultfail-json": {
+      "post": {
+        "tags": ["AIFCareer"],
+        "operationId": "AIFCareer_TestResultFailJson",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComprehensiveCareerGuidanceResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT Token": []
+          }
+        ]
+      }
+    },
+    "/api/AIFCareer/complete-career-analysis": {
+      "post": {
+        "tags": ["AIFCareer"],
+        "operationId": "AIFCareer_CompleteCareerAnalysis",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompleteCareerAssessmentRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComprehensiveCareerGuidanceResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT Token": []
+          }
+        ]
+      }
+    },
+    "/api/AiProcess/generate": {
+      "post": {
+        "tags": ["AiProcess"],
+        "operationId": "AiProcess_Generate",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AIRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AIResponse"
                 }
               }
             }
@@ -326,6 +699,1153 @@
                 "$ref": "#/components/schemas/UserEntity"
               }
             ]
+          }
+        }
+      },
+      "QuizListResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AbstractApiResponseOfListOfQuizEntity"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "response": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/QuizEntity"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "QuizEntity": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "quizId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "industry": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "questionCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AbstractApiResponseOfListOfQuizEntity": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false,
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "messageId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "detailErrorList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DetailError"
+            }
+          },
+          "response": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/QuizEntity"
+            }
+          }
+        }
+      },
+      "QuizDetailResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AbstractApiResponseOfQuizDetailEntity"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "response": {
+                "$ref": "#/components/schemas/QuizDetailEntity"
+              }
+            }
+          }
+        ]
+      },
+      "QuizDetailEntity": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "quizId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "industry": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuestionEntity"
+            }
+          }
+        }
+      },
+      "QuestionEntity": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "questionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "questionTitle": {
+            "type": "string"
+          },
+          "questionType": {
+            "type": "string"
+          },
+          "orderIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "answers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnswerEntity"
+            }
+          }
+        }
+      },
+      "AnswerEntity": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "answerText": {
+            "type": "string"
+          },
+          "orderIndex": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "AbstractApiResponseOfQuizDetailEntity": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false,
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "messageId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "detailErrorList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DetailError"
+            }
+          },
+          "response": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/QuizDetailEntity"
+              }
+            ]
+          }
+        }
+      },
+      "JobListResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AbstractApiResponseOfListOfJobListEntity"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "response": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/JobListEntity"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "JobListEntity": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string"
+          },
+          "companyName": {
+            "type": "string"
+          },
+          "industry": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "salary": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          }
+        }
+      },
+      "AbstractApiResponseOfListOfJobListEntity": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false,
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "messageId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "detailErrorList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DetailError"
+            }
+          },
+          "response": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/JobListEntity"
+            }
+          }
+        }
+      },
+      "JobDetailResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AbstractApiResponseOfJobDetailEntity"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "response": {
+                "$ref": "#/components/schemas/JobDetailEntity"
+              }
+            }
+          }
+        ]
+      },
+      "JobDetailEntity": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string"
+          },
+          "companyName": {
+            "type": "string"
+          },
+          "industry": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "salary": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "experienceRequirement": {
+            "type": "string"
+          },
+          "degreeRequirement": {
+            "type": "string"
+          },
+          "jobDescription": {
+            "type": "string"
+          },
+          "keyResponsibility": {
+            "type": "string"
+          },
+          "professionalSkill": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AbstractApiResponseOfJobDetailEntity": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false,
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "messageId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "detailErrorList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DetailError"
+            }
+          },
+          "response": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/JobDetailEntity"
+              }
+            ]
+          }
+        }
+      },
+      "JobCreateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "title",
+          "companyName",
+          "industry",
+          "type",
+          "salary",
+          "address",
+          "jobDescription",
+          "keyResponsibility",
+          "professionalSkill"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1
+          },
+          "companyName": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1
+          },
+          "industry": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+          },
+          "type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "salary": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+          },
+          "address": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1
+          },
+          "experienceRequirement": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "degreeRequirement": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "jobDescription": {
+            "type": "string",
+            "minLength": 1
+          },
+          "keyResponsibility": {
+            "type": "string",
+            "minLength": 1
+          },
+          "professionalSkill": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "JobApplicationResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AbstractApiResponseOfJobApplicationEntity"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "response": {
+                "$ref": "#/components/schemas/JobApplicationEntity"
+              }
+            }
+          }
+        ]
+      },
+      "JobApplicationEntity": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "jobId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "cvUrl": {
+            "type": "string"
+          },
+          "coverLetter": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "appliedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "job": {
+            "$ref": "#/components/schemas/JobDetailEntity"
+          }
+        }
+      },
+      "AbstractApiResponseOfJobApplicationEntity": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false,
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "messageId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "detailErrorList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DetailError"
+            }
+          },
+          "response": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/JobApplicationEntity"
+              }
+            ]
+          }
+        }
+      },
+      "JobApplicationCreateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["jobId", "userId"],
+        "properties": {
+          "jobId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "string",
+            "format": "guid",
+            "minLength": 1
+          },
+          "cvFile": {
+            "type": "string",
+            "format": "binary"
+          },
+          "coverLetter": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ComprehensiveCareerGuidanceResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "overallAssessment": {
+            "$ref": "#/components/schemas/OverallAssessment"
+          },
+          "recommendedCareerPaths": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecommendedCareerPath"
+            }
+          },
+          "personalizedDevelopmentPlan": {
+            "$ref": "#/components/schemas/PersonalizedDevelopmentPlan"
+          },
+          "strengthsAndGaps": {
+            "$ref": "#/components/schemas/StrengthsAndGaps"
+          },
+          "industryInsights": {
+            "$ref": "#/components/schemas/IndustryInsights"
+          }
+        }
+      },
+      "OverallAssessment": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "careerReadinessScore": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "technicalMaturity": {
+            "type": "string"
+          },
+          "personalityCareerMatch": {
+            "type": "string"
+          },
+          "experienceGapAnalysis": {
+            "type": "string"
+          }
+        }
+      },
+      "RecommendedCareerPath": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "position": {
+            "type": "string"
+          },
+          "matchPercentage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeline": {
+            "type": "string"
+          },
+          "reasoning": {
+            "type": "string"
+          },
+          "requiredSkills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "growthPotential": {
+            "type": "string"
+          }
+        }
+      },
+      "PersonalizedDevelopmentPlan": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "immediateActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "shortTermGoals": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "longTermVision": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "skillPriorities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkillPriority"
+            }
+          },
+          "learningResources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LearningResource"
+            }
+          },
+          "recommendedLearningPath": {
+            "type": "string"
+          }
+        }
+      },
+      "SkillPriority": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "skillName": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "estimatedLearningTimeWeeks": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "prerequisites": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "LearningResource": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "resourceName": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "difficulty": {
+            "type": "string"
+          },
+          "estimatedHours": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isFree": {
+            "type": "boolean"
+          }
+        }
+      },
+      "StrengthsAndGaps": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "coreStrengths": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Strength"
+            }
+          },
+          "technicalStrengths": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Strength"
+            }
+          },
+          "softSkillStrengths": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Strength"
+            }
+          },
+          "criticalGaps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Gap"
+            }
+          },
+          "niceToHaveSkills": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Gap"
+            }
+          },
+          "overallStrengthSummary": {
+            "type": "string"
+          },
+          "improvementStrategy": {
+            "type": "string"
+          }
+        }
+      },
+      "Strength": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "evidence": {
+            "type": "string"
+          },
+          "applicableRoles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Gap": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "skillName": {
+            "type": "string"
+          },
+          "currentLevel": {
+            "type": "string"
+          },
+          "requiredLevel": {
+            "type": "string"
+          },
+          "impact": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "improvementSuggestions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "IndustryInsights": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "marketTrends": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "emergingOpportunities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EmergingOpportunity"
+            }
+          },
+          "salaryExpectations": {
+            "$ref": "#/components/schemas/SalaryExpectation"
+          },
+          "jobMarketOutlook": {
+            "type": "string"
+          },
+          "inDemandSkills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "industryAdvice": {
+            "type": "string"
+          }
+        }
+      },
+      "EmergingOpportunity": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "field": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "growthPotential": {
+            "type": "string"
+          },
+          "requiredSkills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "timeline": {
+            "type": "string"
+          }
+        }
+      },
+      "SalaryExpectation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "entryLevel": {
+            "type": "string"
+          },
+          "midLevel": {
+            "type": "string"
+          },
+          "seniorLevel": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          },
+          "factorsAffectingSalary": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SalaryFactor"
+            }
+          }
+        }
+      },
+      "SalaryFactor": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "factor": {
+            "type": "string"
+          },
+          "impact": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "CompleteCareerAssessmentRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "stage1": {
+            "$ref": "#/components/schemas/Stage1_SelfDiscovery"
+          },
+          "stage2": {
+            "$ref": "#/components/schemas/Stage2_TechnicalAssessment"
+          },
+          "stage3": {
+            "$ref": "#/components/schemas/Stage3_PersonalityAndCV"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "completedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Stage1_SelfDiscovery": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "currentSemester": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "academicLevel": {
+            "type": "string"
+          },
+          "interestedFields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "preferredTechnologies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "careerGoal": {
+            "type": "string"
+          },
+          "learningStyle": {
+            "type": "string"
+          }
+        }
+      },
+      "Stage2_TechnicalAssessment": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "programmingKnowledge": {
+            "$ref": "#/components/schemas/TechnicalCategory"
+          },
+          "databaseKnowledge": {
+            "$ref": "#/components/schemas/TechnicalCategory"
+          },
+          "systemDesign": {
+            "$ref": "#/components/schemas/TechnicalCategory"
+          },
+          "specializedSkills": {
+            "$ref": "#/components/schemas/TechnicalCategory"
+          },
+          "overallTechnicalScore": {
+            "type": "number",
+            "format": "double"
+          },
+          "technicalLevel": {
+            "type": "string"
+          }
+        }
+      },
+      "TechnicalCategory": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "categoryName": {
+            "type": "string"
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TechnicalQuestion"
+            }
+          },
+          "score": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalQuestions": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "correctAnswers": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "TechnicalQuestion": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "questionId": {
+            "type": "string"
+          },
+          "question": {
+            "type": "string"
+          },
+          "userAnswer": {
+            "type": "string"
+          },
+          "correctAnswer": {
+            "type": "string"
+          },
+          "isCorrect": {
+            "type": "boolean"
+          },
+          "difficulty": {
+            "type": "string"
+          },
+          "topic": {
+            "type": "string"
+          },
+          "points": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Stage3_PersonalityAndCV": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "personality": {
+            "$ref": "#/components/schemas/PersonalityAssessment"
+          },
+          "softSkills": {
+            "$ref": "#/components/schemas/SoftSkillsAssessment"
+          }
+        }
+      },
+      "PersonalityAssessment": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "questions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PersonalityQuestion"
+            }
+          },
+          "mbtiType": {
+            "type": "string"
+          },
+          "traitScores": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "workingStylePreferences": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "motivationFactors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "PersonalityQuestion": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "questionId": {
+            "type": "string"
+          },
+          "question": {
+            "type": "string"
+          },
+          "answer": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "SoftSkillsAssessment": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "skillRatings": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "preferredWorkEnvironment": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "learningPreference": {
+            "type": "string"
+          },
+          "problemSolvingStyle": {
+            "type": "string"
+          }
+        }
+      },
+      "AIResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "result": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "AIRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "nullable": true
           }
         }
       }

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Form,
   Input,
@@ -8,6 +8,7 @@ import {
   Slider,
   Button,
   Pagination,
+  message,
 } from "antd";
 import {
   EnvironmentOutlined,
@@ -16,69 +17,8 @@ import {
   AppstoreOutlined,
 } from "@ant-design/icons";
 import BaseScreen from "../../layout/BaseScreen";
-
-const jobs = [
-  {
-    title: ".Net Developer",
-    company: "Bauch, Schuppe and Schulist Co",
-    location: "New-York, USA",
-    salary: "$40000-$42000",
-    type: "Full time",
-    time: "10 min ago",
-    category: "Hotels & Tourism",
-    logo: "/globe.svg",
-  },
-  {
-    title: "Regional Creative Facilitator",
-    company: "Wisozk - Becker Co",
-    location: "Los- Angeles, USA",
-    salary: "$28000-$32000",
-    type: "Part time",
-    time: "12 min ago",
-    category: "IT",
-    logo: "/public/globe.svg",
-  },
-  {
-    title: "Internal Integration Planner",
-    company: "Mraz, Quigley and Feest Inc.",
-    location: "Texas, USA",
-    salary: "$48000-$50000",
-    type: "Full time",
-    time: "15 min ago",
-    category: "IT",
-    logo: "/public/globe.svg",
-  },
-  {
-    title: "District Intranet Director",
-    company: "VonRueden - Weber Co",
-    location: "Florida, USA",
-    salary: "$42000-$48000",
-    type: "Full time",
-    time: "24 min ago",
-    category: "IT",
-    logo: "/public/globe.svg",
-  },
-  {
-    title: "Corporate Tactics Facilitator",
-    company: "Cormier, Turner and Flatley Inc",
-    location: "Boston, USA",
-    salary: "$38000-$40000",
-    type: "Full time",
-    time: "26 min ago",
-    category: "Commerce",
-    logo: "/public/globe.svg",
-  },
-  {
-    title: "Forward Accounts Consultant",
-    company: "Miller Group",
-    location: "Boston, USA",
-    salary: "$45000-$48000",
-    type: "Full time",
-    time: "30 min ago",
-    category: "Financial services",
-    logo: "/public/globe.svg",
-  },
-];
+import { useJobStore } from "../../store/JobStore/JobStore";
+import { useAuthStore } from "../../store/AuthStore/AuthStore";
 
 const sidebarFilters = [
   {
@@ -117,6 +57,24 @@ const infoIconClass = "text-[#5da38f] text-lg mr-1";
 const infoTextClass = "text-[15px] font-medium text-[#5a6e6c] flex items-center gap-1";
 
 export default function JobBoard() {
+  const { jobs, loading, error, totalJobs, currentPage, pageSize, fetchJobs, setCurrentPage } = useJobStore();
+  const { token } = useAuthStore();
+
+  useEffect(() => {
+    fetchJobs(token);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
+
+  useEffect(() => {
+    if (error) {
+      message.error(error);
+    }
+  }, [error]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   return (
     <BaseScreen>
       {/* Hero/Header section */}
@@ -168,7 +126,9 @@ export default function JobBoard() {
           {/* Main Content */}
           <main className="flex-1">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
-              <span className="text-sm text-gray-500 mb-2 md:mb-0">Showing 6-6 of 10 results</span>
+              <span className="text-sm text-gray-500 mb-2 md:mb-0">
+                {loading ? "Loading..." : `Showing ${jobs.length} of ${totalJobs} results`}
+              </span>
               <div className="flex gap-2">
                 <Button className="bg-[#6fc7b5] text-white font-semibold border-none px-6 rounded-lg hover:bg-[#5da38f]">Làm Lại Bài Test</Button>
                 <Select defaultValue="latest" style={{ minWidth: 160 }} className="rounded-lg">
@@ -177,48 +137,67 @@ export default function JobBoard() {
               </div>
             </div>
             <div className="flex flex-col gap-6">
-              {jobs.map((job, i) => (
-                <div
-                  key={i}
-                  className="relative bg-white shadow-sm px-7 py-6 flex flex-col gap-4"
-                  style={{ boxShadow: '0 4px 24px 0 rgba(90, 110, 108, 0.06)' }}
-                >
-                  {/* Badge thời gian */}
-                  <span className="absolute top-5 left-6 bg-[#d6f5ea] text-[#4ca187] text-[15px] font-semibold px-4 py-1 rounded-full" style={{letterSpacing: 0.2}}>
-                    {job.time}
-                  </span>
-                  {/* Bookmark icon */}
-                  <span className="absolute top-5 right-6">
-                    <svg width="28" height="28" fill="none" stroke="#7b8a8a" strokeWidth="2" viewBox="0 0 24 24">
-                      <path d="M6 4a2 2 0 0 0-2 2v14l8-5.333L20 20V6a2 2 0 0 0-2-2H6z"/>
-                      <path d="M17 8h-6m6 4h-6" stroke="#5da38f" strokeWidth="2"/>
-                    </svg>
-                  </span>
-                  {/* Logo + Title + Company */}
-                  <div className="flex items-center gap-4 mt-4">
-                    <img src={job.logo} alt="logo" className="w-14 h-14 rounded-full object-cover" />
-                    <div>
-                      <div className="text-xl font-bold text-[#222] mb-0.5">{job.title}</div>
-                      <div className="text-[16px] text-[#5a6e6c]">{job.company}</div>
+              {loading ? (
+                <div className="text-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#5da38f] mx-auto"></div>
+                  <p className="mt-2 text-gray-500">Loading jobs...</p>
+                </div>
+              ) : jobs.length === 0 ? (
+                <div className="text-center py-8">
+                  <p className="text-gray-500">No jobs found</p>
+                </div>
+              ) : (
+                jobs.map((job) => (
+                  <div
+                    key={job.id}
+                    className="relative bg-white shadow-sm px-7 py-6 flex flex-col gap-4"
+                    style={{ boxShadow: '0 4px 24px 0 rgba(90, 110, 108, 0.06)' }}
+                  >
+                    {/* Badge thời gian */}
+                    <span className="absolute top-5 left-6 bg-[#d6f5ea] text-[#4ca187] text-[15px] font-semibold px-4 py-1 rounded-full" style={{letterSpacing: 0.2}}>
+                      Recently posted
+                    </span>
+                    {/* Bookmark icon */}
+                    <span className="absolute top-5 right-6">
+                      <svg width="28" height="28" fill="none" stroke="#7b8a8a" strokeWidth="2" viewBox="0 0 24 24">
+                        <path d="M6 4a2 2 0 0 0-2 2v14l8-5.333L20 20V6a2 2 0 0 0-2-2H6z"/>
+                        <path d="M17 8h-6m6 4h-6" stroke="#5da38f" strokeWidth="2"/>
+                      </svg>
+                    </span>
+                    {/* Logo + Title + Company */}
+                    <div className="flex items-center gap-4 mt-4">
+                      <img src="/globe.svg" alt="logo" className="w-14 h-14 rounded-full object-cover" />
+                      <div>
+                        <div className="text-xl font-bold text-[#222] mb-0.5">{job.title}</div>
+                        <div className="text-[16px] text-[#5a6e6c]">{job.companyName}</div>
+                      </div>
+                    </div>
+                    {/* Info row */}
+                    <div className="flex flex-wrap gap-x-8 gap-y-2 items-center mt-1">
+                      <span className={infoTextClass}><AppstoreOutlined className={infoIconClass} />{job.industry}</span>
+                      <span className={infoTextClass}><ClockCircleOutlined className={infoIconClass} />{job.type}</span>
+                      <span className={infoTextClass}><DollarOutlined className={infoIconClass} />{job.salary}</span>
+                      <span className={infoTextClass}><EnvironmentOutlined className={infoIconClass} />{job.address}</span>
+                    </div>
+                    {/* Job Details button */}
+                    <div className="flex justify-end mt-1">
+                      <Button type="primary" className="bg-[#4285f4] border-none rounded-xl px-7 py-2 text-base font-semibold hover:bg-[#2563eb] transition-all shadow-sm">Job Details</Button>
                     </div>
                   </div>
-                  {/* Info row */}
-                  <div className="flex flex-wrap gap-x-8 gap-y-2 items-center mt-1">
-                    <span className={infoTextClass}><AppstoreOutlined className={infoIconClass} />{job.category}</span>
-                    <span className={infoTextClass}><ClockCircleOutlined className={infoIconClass} />{job.type}</span>
-                    <span className={infoTextClass}><DollarOutlined className={infoIconClass} />{job.salary}</span>
-                    <span className={infoTextClass}><EnvironmentOutlined className={infoIconClass} />{job.location}</span>
-                  </div>
-                  {/* Job Details button */}
-                  <div className="flex justify-end mt-1">
-                    <Button type="primary" className="bg-[#4285f4] border-none rounded-xl px-7 py-2 text-base font-semibold hover:bg-[#2563eb] transition-all shadow-sm">Job Details</Button>
-                  </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
-            <div className="flex justify-center items-center gap-2 mt-8">
-              <Pagination current={1} total={12} pageSize={6} showSizeChanger={false} />
-            </div>
+            {totalJobs > pageSize && (
+              <div className="flex justify-center items-center gap-2 mt-8">
+                <Pagination 
+                  current={currentPage} 
+                  total={totalJobs} 
+                  pageSize={pageSize} 
+                  showSizeChanger={false}
+                  onChange={handlePageChange}
+                />
+              </div>
+            )}
           </main>
         </div>
       </div>
