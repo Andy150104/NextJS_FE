@@ -11,11 +11,11 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const menuItems = [
-    { key: "home", label: "Trang chủ", href: "#" },
-    { key: "jobs", label: "Công việc", href: "#" },
-    { key: "contact", label: "Liên hệ chúng tôi", href: "#" },
-    { key: "match", label: "Công việc phù hợp cho bạn", href: "#" },
-    { key: "quiz", label: "Quiz", href: "#" },
+    { key: "home", label: "Trang chủ", href: "/Home" },
+    { key: "jobs", label: "Công việc", href: "/job" },
+    { key: "contact", label: "Liên hệ chúng tôi", href: "/contact" },
+    { key: "match", label: "Công việc phù hợp cho bạn", href: "/my-job" },
+    { key: "quiz", label: "Quiz", href: "/quiz" },
     { key: "login", label: "Đăng nhập", button: true, type: "link" },
     { key: "signup", label: "Đăng Ký", button: true, type: "primary" },
   ];
@@ -59,13 +59,13 @@ export default function Navbar() {
           <div className="hidden md:flex items-center space-x-3">
             <ThemeSwitch />
             <Link
-              href="#"
+              href="/Login"
               className="text-white font-medium text-base hover:underline"
             >
               Đăng nhập
             </Link>
             <Link
-              href="#"
+              href="/Login"
               className="bg-[#73b4a1] hover:bg-[#5da38f] text-white font-medium text-base px-4 py-2 rounded"
             >
               Đăng Ký
