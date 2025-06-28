@@ -1,5 +1,5 @@
 // components/Navbar.jsx
-
+"use client"
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -36,12 +36,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <Image
-              src="/briefcase-icon-white.png" // dùng icon briefcase trắng phù hợp
-              alt="Logo"
-              width={28}
-              height={28}
-            />
+            <Image src="https://rubicmarketing.com/wp-content/uploads/2022/07/y-nghia-logo-fpt-lan-3.jpg" alt="Logo" width={28} height={28} />
             <span className="text-lg font-semibold">FCareer</span>
           </div>
 
