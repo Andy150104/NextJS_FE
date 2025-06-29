@@ -61,7 +61,7 @@ export default function JobBoard() {
   const { token } = useAuthStore();
 
   useEffect(() => {
-    fetchJobs(token);
+    fetchJobs(token || undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
